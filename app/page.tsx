@@ -1,9 +1,10 @@
 "use client"
 
 import { PokemonCard } from "@/components/pokemon-card"
+import { PokemonDetails } from "@/components/pokemon-details"
 import { SearchInput } from "@/components/search-input"
 import { Button } from "@/components/ui/button"
-import type { Pokemon, PokemonListResponse } from "@/types/pokemont"
+import type { Pokemon, PokemonListResponse } from "@/types/pokemon"
 import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -13,6 +14,7 @@ export default function PokedexPage() {
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [offset, setOffset] = useState(0)
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null)
   const limit = 12
 
   const fetchPokemon = async () => {
@@ -20,11 +22,9 @@ export default function PokedexPage() {
       setLoading(true)
       setError(null)
 
-      // Fetch list of pokemon
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
       const data: PokemonListResponse = await response.json()
 
-      // Fetch detailed data for each pokemon
       const pokemonData = await Promise.all(
         data.results.map(async (pokemon) => {
           const res = await fetch(pokemon.url)
@@ -60,7 +60,7 @@ export default function PokedexPage() {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredPokemon.map((p) => (
-              <PokemonCard key={p.id} pokemon={p} />
+              <PokemonCard key={p.id} pokemon={p} onClick={() => setSelectedPokemon(p)} />
             ))}
           </div>
 
@@ -78,6 +78,12 @@ export default function PokedexPage() {
               </Button>
             </div>
           )}
+
+          <PokemonDetails
+            pokemon={selectedPokemon}
+            open={!!selectedPokemon}
+            onOpenChange={(open) => !open && setSelectedPokemon(null)}
+          />
         </>
       )}
     </main>

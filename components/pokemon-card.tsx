@@ -1,11 +1,11 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import type { Pokemon } from "@/types/pokemont"
-
+import type { Pokemon } from "@/types/pokemon"
 import Image from "next/image"
 
 interface PokemonCardProps {
   pokemon: Pokemon
+  onClick: () => void
 }
 
 const typeColors: Record<string, string> = {
@@ -29,11 +29,14 @@ const typeColors: Record<string, string> = {
   fairy: "bg-pink-400",
 }
 
-export function PokemonCard({ pokemon }: PokemonCardProps) {
+export function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={onClick}>
       <CardHeader className="p-4">
-        <CardTitle className="text-lg capitalize">{pokemon.name}</CardTitle>
+        <CardTitle className="text-lg capitalize flex items-center justify-between">
+          {pokemon.name}
+          <span className="text-sm text-muted-foreground">#{pokemon.id.toString().padStart(3, "0")}</span>
+        </CardTitle>
         <div className="flex gap-2">
           {pokemon.types.map(({ type }) => (
             <Badge key={type.name} className={`${typeColors[type.name] || "bg-gray-500"} text-white`}>
@@ -56,4 +59,5 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
     </Card>
   )
 }
+
 
