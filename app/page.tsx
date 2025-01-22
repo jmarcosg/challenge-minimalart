@@ -9,8 +9,7 @@ import { Loader2 } from "lucide-react"
 import { useEffect } from "react"
 
 export default function PokedexPage() {
-  const { pokemon, loading, error, searchQuery, selectedPokemon, fetchPokemon, setSearchQuery, setSelectedPokemon } =
-    usePokedexStore()
+  const { pokemon, loading, error, searchQuery, searchResults, fetchPokemon } = usePokedexStore()
 
   useEffect(() => {
     if (pokemon.length === 0) {
@@ -18,14 +17,14 @@ export default function PokedexPage() {
     }
   }, [fetchPokemon, pokemon.length])
 
-  const filteredPokemon = pokemon.filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  const displayedPokemon = searchQuery ? searchResults : pokemon
 
   return (
     <main className="container mx-auto py-8 px-4">
       <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
 
       <div className="max-w-xl mx-auto mb-8">
-        <SearchInput value={searchQuery} onChange={setSearchQuery} />
+        <SearchInput />
       </div>
 
       {error ? (
@@ -38,12 +37,12 @@ export default function PokedexPage() {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredPokemon.map((p) => (
-              <PokemonCard key={p.id} pokemon={p} onClick={() => setSelectedPokemon(p)} />
+            {displayedPokemon.map((p) => (
+              <PokemonCard key={p.id} pokemon={p} />
             ))}
           </div>
 
-          {!searchQuery && (
+          {!searchQuery && displayedPokemon.length > 0 && (
             <div className="mt-8 text-center">
               <Button onClick={fetchPokemon} disabled={loading}>
                 {loading ? (
@@ -58,14 +57,15 @@ export default function PokedexPage() {
             </div>
           )}
 
-          <PokemonDetails
-            pokemon={selectedPokemon}
-            open={!!selectedPokemon}
-            onOpenChange={(open: boolean) => !open && setSelectedPokemon(null)}
-          />
+          {searchQuery && displayedPokemon.length === 0 && !loading && (
+            <div className="text-center text-muted-foreground">No Pokémon found for &quot;{searchQuery}&quot;</div>
+          )}
+
+          <PokemonDetails />
         </>
       )}
     </main>
   )
 }
+
 
