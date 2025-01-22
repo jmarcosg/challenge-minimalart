@@ -1,11 +1,11 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import type { Pokemon } from "@/types/pokemon"
+import { usePokedexStore } from "@/store/pokedex-store"
 import Image from "next/image"
+import type { Pokemon } from "../types/pokemon"
 
 interface PokemonCardProps {
   pokemon: Pokemon
-  onClick: () => void
 }
 
 const typeColors: Record<string, string> = {
@@ -29,9 +29,14 @@ const typeColors: Record<string, string> = {
   fairy: "bg-pink-400",
 }
 
-export function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
+export function PokemonCard({ pokemon }: PokemonCardProps) {
+  const setSelectedPokemon = usePokedexStore((state) => state.setSelectedPokemon)
+
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={onClick}>
+    <Card
+      className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+      onClick={() => setSelectedPokemon(pokemon)}
+    >
       <CardHeader className="p-4">
         <CardTitle className="text-lg capitalize flex items-center justify-between">
           {pokemon.name}
@@ -59,5 +64,4 @@ export function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
     </Card>
   )
 }
-
 

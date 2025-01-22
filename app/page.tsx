@@ -4,45 +4,19 @@ import { PokemonCard } from "@/components/pokemon-card"
 import { PokemonDetails } from "@/components/pokemon-details"
 import { SearchInput } from "@/components/search-input"
 import { Button } from "@/components/ui/button"
-import type { Pokemon, PokemonListResponse } from "@/types/pokemon"
+import { usePokedexStore } from "@/store/pokedex-store"
 import { Loader2 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 export default function PokedexPage() {
-  const [pokemon, setPokemon] = useState<Pokemon[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [offset, setOffset] = useState(0)
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null)
-  const limit = 12
-
-  const fetchPokemon = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
-      const data: PokemonListResponse = await response.json()
-
-      const pokemonData = await Promise.all(
-        data.results.map(async (pokemon) => {
-          const res = await fetch(pokemon.url)
-          return res.json()
-        }),
-      )
-
-      setPokemon((prev) => [...prev, ...pokemonData])
-    } catch (err) {
-      setError(`Failed to fetch Pokemon. Please try again later. ${err}`)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { pokemon, loading, error, searchQuery, selectedPokemon, fetchPokemon, setSearchQuery, setSelectedPokemon } =
+    usePokedexStore()
 
   useEffect(() => {
-    fetchPokemon()
-  }, [offset])
+    if (pokemon.length === 0) {
+      fetchPokemon()
+    }
+  }, [fetchPokemon, pokemon.length])
 
   const filteredPokemon = pokemon.filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
@@ -55,7 +29,12 @@ export default function PokedexPage() {
       </div>
 
       {error ? (
-        <div className="text-center text-red-500">{error}</div>
+        <div className="text-center text-red-500 mb-4">
+          <p>{error}</p>
+          <Button onClick={fetchPokemon} className="mt-2">
+            Retry
+          </Button>
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -66,7 +45,7 @@ export default function PokedexPage() {
 
           {!searchQuery && (
             <div className="mt-8 text-center">
-              <Button onClick={() => setOffset((prev) => prev + limit)} disabled={loading}>
+              <Button onClick={fetchPokemon} disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -82,7 +61,7 @@ export default function PokedexPage() {
           <PokemonDetails
             pokemon={selectedPokemon}
             open={!!selectedPokemon}
-            onOpenChange={(open) => !open && setSelectedPokemon(null)}
+            onOpenChange={(open: boolean) => !open && setSelectedPokemon(null)}
           />
         </>
       )}

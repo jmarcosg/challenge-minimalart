@@ -1,14 +1,8 @@
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
-import type { Pokemon } from "@/types/pokemon"
+import { usePokedexStore } from "@/store/pokedex-store"
 import Image from "next/image"
-
-interface PokemonDetailsProps {
-  pokemon: Pokemon | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
 
 const typeColors: Record<string, string> = {
   normal: "bg-gray-400",
@@ -31,23 +25,25 @@ const typeColors: Record<string, string> = {
   fairy: "bg-pink-400",
 }
 
-export function PokemonDetails({ pokemon, open, onOpenChange }: PokemonDetailsProps) {
-  if (!pokemon) return null
+export function PokemonDetails() {
+  const { selectedPokemon, setSelectedPokemon } = usePokedexStore()
+
+  if (!selectedPokemon) return null
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={!!selectedPokemon} onOpenChange={(open) => !open && setSelectedPokemon(null)}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold capitalize flex items-center gap-2">
-            {pokemon.name}
-            <span className="text-lg text-muted-foreground">#{pokemon.id.toString().padStart(3, "0")}</span>
+            {selectedPokemon.name}
+            <span className="text-lg text-muted-foreground">#{selectedPokemon.id.toString().padStart(3, "0")}</span>
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4 md:grid-cols-2">
           <div className="relative aspect-square">
             <Image
-              src={pokemon.sprites.other["official-artwork"].front_default || "/placeholder.svg"}
-              alt={pokemon.name}
+              src={selectedPokemon.sprites.other["official-artwork"].front_default || "/placeholder.svg"}
+              alt={selectedPokemon.name}
               fill
               className="object-contain p-4"
               priority
@@ -57,7 +53,7 @@ export function PokemonDetails({ pokemon, open, onOpenChange }: PokemonDetailsPr
             <div>
               <h3 className="font-semibold mb-2">Types</h3>
               <div className="flex gap-2">
-                {pokemon.types.map(({ type }) => (
+                {selectedPokemon.types.map(({ type }) => (
                   <Badge key={type.name} className={`${typeColors[type.name] || "bg-gray-500"} text-white`}>
                     {type.name}
                   </Badge>
@@ -67,7 +63,7 @@ export function PokemonDetails({ pokemon, open, onOpenChange }: PokemonDetailsPr
             <div>
               <h3 className="font-semibold mb-2">Stats</h3>
               <div className="space-y-2">
-                {pokemon.stats.map(({ base_stat, stat }) => (
+                {selectedPokemon.stats.map(({ base_stat, stat }) => (
                   <div key={stat.name} className="space-y-1">
                     <div className="flex justify-between text-sm">
                       <span className="capitalize">{stat.name.replace("-", " ")}</span>
@@ -81,17 +77,17 @@ export function PokemonDetails({ pokemon, open, onOpenChange }: PokemonDetailsPr
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <h3 className="font-semibold mb-2">Height</h3>
-                <p>{(pokemon.height / 10).toFixed(1)}m</p>
+                <p>{(selectedPokemon.height / 10).toFixed(1)}m</p>
               </div>
               <div>
                 <h3 className="font-semibold mb-2">Weight</h3>
-                <p>{(pokemon.weight / 10).toFixed(1)}kg</p>
+                <p>{(selectedPokemon.weight / 10).toFixed(1)}kg</p>
               </div>
             </div>
             <div>
               <h3 className="font-semibold mb-2">Abilities</h3>
               <div className="flex flex-wrap gap-2">
-                {pokemon.abilities.map(({ ability, is_hidden }) => (
+                {selectedPokemon.abilities.map(({ ability, is_hidden }) => (
                   <Badge key={ability.name} variant={is_hidden ? "outline" : "default"}>
                     {ability.name.replace("-", " ")}
                     {is_hidden && " (Hidden)"}
