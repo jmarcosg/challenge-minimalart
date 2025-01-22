@@ -13,6 +13,20 @@ export interface Pokemon {
       }
     }
   }
+  stats: {
+    base_stat: number
+    stat: {
+      name: string
+    }
+  }[]
+  height: number
+  weight: number
+  abilities: {
+    ability: {
+      name: string
+    }
+    is_hidden: boolean
+  }[]
 }
 
 export interface PokemonListResponse {
