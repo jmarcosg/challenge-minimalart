@@ -1,5 +1,6 @@
 "use client"
 
+import { AlphabetIndex } from "@/components/alphabet-index"
 import { PokemonCard } from "@/components/pokemon-card"
 import { PokemonDetails } from "@/components/pokemon-details"
 import { SearchInput } from "@/components/search-input"
@@ -12,7 +13,7 @@ import { Loader2 } from "lucide-react"
 const queryClient = new QueryClient()
 
 function PokedexContent() {
-  const { searchQuery } = usePokedexStore()
+  const { searchQuery, selectedLetter, setSelectedLetter } = usePokedexStore()
   const {
     data: pokemonListData,
     fetchNextPage,
@@ -26,17 +27,23 @@ function PokedexContent() {
   const { data: searchResult, isLoading: isSearching } = useSearchPokemon(searchQuery)
 
   const isLoading = isLoadingList || isLoadingDetails || isSearching
-  const displayedPokemon = searchQuery ? (searchResult ? [searchResult] : []) : pokemonDetails || []
+  let displayedPokemon = searchQuery ? (searchResult ? [searchResult] : []) : pokemonDetails || []
+
+  // Filter Pokemon by selected letter
+  if (selectedLetter && !searchQuery) {
+    displayedPokemon = displayedPokemon.filter((pokemon) => pokemon.name.toUpperCase().startsWith(selectedLetter))
+  }
 
   return (
-    <main className="container mx-auto py-8 px-4">
+    <div className="flex relative">
+      <main className="flex-grow container mx-auto py-8 px-4 md:pr-16">
       <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
 
       <div className="max-w-xl mx-auto mb-8">
         <SearchInput />
       </div>
       
-            {isLoading ? (
+      {isLoading ? (
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin mx-auto" />
           <p className="mt-2">Loading Pokémon...</p>
@@ -48,9 +55,10 @@ function PokedexContent() {
             ))}
           </div>
       ) : (
-        <div className="text-center text-muted-foreground">
-          No Pokémon found {searchQuery && `for "${searchQuery}"`}
-        </div>
+          <div className="text-center text-muted-foreground">
+            No Pokémon found {searchQuery && `for "${searchQuery}"`}
+            {selectedLetter && ` starting with "${selectedLetter}"`}
+          </div>
       )}
 
       {!searchQuery && hasNextPage && (
@@ -70,6 +78,16 @@ function PokedexContent() {
 
       <PokemonDetails />
     </main>
+      <aside className="fixed right-0 top-0 h-full">
+        <AlphabetIndex
+          onSelectLetter={(letter) => {
+            setSelectedLetter(letter === selectedLetter ? null : letter)
+            usePokedexStore.setState({ searchQuery: "" })
+          }}
+          selectedLetter={selectedLetter}
+        />
+      </aside>
+    </div>
   )
 }
 
