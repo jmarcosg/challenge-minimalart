@@ -5,15 +5,15 @@ export interface Pokemon {
   forms:                    Species[];
   game_indices:             GameIndex[];
   height:                   number;
-  held_items:               any[];
+  held_items:               HeldItem[];
   id:                       number;
   is_default:               boolean;
   location_area_encounters: string;
   moves:                    Move[];
   name:                     string;
   order:                    number;
-  past_abilities:           any[];
-  past_types:               any[];
+  past_abilities:           Ability[];
+  past_types:               Type[];
   species:                  Species;
   sprites:                  Sprites;
   stats:                    Stat[];
@@ -40,6 +40,16 @@ export interface Cries {
 export interface GameIndex {
   game_index: number;
   version:    Species;
+}
+
+export interface HeldItem {
+  item:    Species;
+  version_details: VersionDetail[];
+}
+
+export interface VersionDetail {
+  rarity:  number;
+  version: Species;
 }
 
 export interface Move {
