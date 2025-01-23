@@ -1,14 +1,14 @@
-import { Input } from "@/components/ui/input"
-import { usePokedexStore } from "@/store/pokedex-store"
-import { Search } from "lucide-react"
+import { Input } from '@/components/ui/input';
+import { usePokedexStore } from '@/store/pokedex-store';
+import { Search } from 'lucide-react';
 
 export function SearchInput() {
-  const { searchQuery, setSearchQuery, setSelectedLetter } = usePokedexStore()
+  const { searchQuery, setSearchQuery, setSelectedLetter } = usePokedexStore();
 
   const handleSearch = (value: string) => {
-    setSearchQuery(value)
-    setSelectedLetter(null) // Clear selected letter when searching
-  }
+    setSearchQuery(value);
+    setSelectedLetter(null); // Clear selected letter when searching
+  };
 
   return (
     <div className="relative">
@@ -20,6 +20,5 @@ export function SearchInput() {
         className="pl-8"
       />
     </div>
-  )
+  );
 }
-
