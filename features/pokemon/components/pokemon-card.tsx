@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { pokemonTypeColors } from '@/lib/pokemon-type-colors';
 import { usePokedexStore } from '@/store/pokedex-store';
 import Image from 'next/image';
 import type { Pokemon } from '../../../types/pokemon';
@@ -7,27 +8,6 @@ import type { Pokemon } from '../../../types/pokemon';
 interface PokemonCardProps {
   pokemon: Pokemon;
 }
-
-const typeColors: Record<string, string> = {
-  normal: 'bg-gray-400',
-  fire: 'bg-red-500',
-  water: 'bg-blue-500',
-  electric: 'bg-yellow-400',
-  grass: 'bg-green-500',
-  ice: 'bg-blue-300',
-  fighting: 'bg-red-600',
-  poison: 'bg-purple-500',
-  ground: 'bg-yellow-600',
-  flying: 'bg-blue-400',
-  psychic: 'bg-pink-500',
-  bug: 'bg-green-400',
-  rock: 'bg-yellow-700',
-  ghost: 'bg-purple-600',
-  dragon: 'bg-purple-700',
-  dark: 'bg-gray-700',
-  steel: 'bg-gray-500',
-  fairy: 'bg-pink-400',
-};
 
 export function PokemonCard({ pokemon }: PokemonCardProps) {
   const setSelectedPokemon = usePokedexStore(
@@ -50,7 +30,9 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
           {pokemon.types.map(({ type }) => (
             <Badge
               key={type.name}
-              className={`${typeColors[type.name] || 'bg-gray-500'} text-white`}
+              className={`${
+                pokemonTypeColors[type.name] || 'bg-gray-500'
+              } text-white`}
             >
               {type.name}
             </Badge>
@@ -61,12 +43,14 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
         <div className="relative w-full aspect-square">
           <Image
             src={
-              pokemon.sprites.other['official-artwork'].front_default ||
+              pokemon.sprites.other?.['official-artwork']?.front_default ||
+              '/placeholder.svg' ||
               '/placeholder.svg'
             }
             alt={pokemon.name}
             fill
             className="object-contain p-4"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
           />
         </div>

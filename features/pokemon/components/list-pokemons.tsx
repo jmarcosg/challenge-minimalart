@@ -79,7 +79,7 @@ export function ListPokemons() {
       <PokemonDetails />
 
       {/* sidebar that acts as a pokemon filter based on its inital letter */}
-      <aside className="fixed right-0 top-0 h-full">
+      <aside className="fixed right-0 top-0 h-full z-10 hidden md:block">
         <AlphabetIndex
           onSelectLetter={(letter) => {
             setSelectedLetter(letter === selectedLetter ? null : letter);

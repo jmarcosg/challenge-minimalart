@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 
 interface AlphabetIndexProps {
   onSelectLetter: (letter: string) => void;
@@ -12,6 +13,10 @@ export function AlphabetIndex({
   onSelectLetter,
   selectedLetter,
 }: AlphabetIndexProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) return null;
+
   return (
     <ScrollArea className="h-screen w-12 bg-background border-l">
       <div className="flex flex-col items-center space-y-2 py-4">
