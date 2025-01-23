@@ -3,7 +3,12 @@ import { usePokedexStore } from "@/store/pokedex-store"
 import { Search } from "lucide-react"
 
 export function SearchInput() {
-  const { searchQuery, setSearchQuery } = usePokedexStore()
+  const { searchQuery, setSearchQuery, setSelectedLetter } = usePokedexStore()
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value)
+    setSelectedLetter(null) // Clear selected letter when searching
+  }
 
   return (
     <div className="relative">
@@ -11,7 +16,7 @@ export function SearchInput() {
       <Input
         placeholder="Search Pokémon..."
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e) => handleSearch(e.target.value)}
         className="pl-8"
       />
     </div>
