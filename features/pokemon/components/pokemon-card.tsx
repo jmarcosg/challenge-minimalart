@@ -1,6 +1,5 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { pokemonTypeColors } from '@/lib/pokemon-type-colors';
 import { usePokedexStore } from '@/store/pokedex-store';
 import type { Pokemon } from '@/types/pokemon';
 import Image from 'next/image';
@@ -52,7 +51,7 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
             <Badge
               key={type.name}
               className={`${
-                typeColors[type.name as keyof typeof pokemonTypeColors] ||
+                typeColors[type.name as keyof typeof typeColors] ||
                 'bg-gray-500'
               } text-white`}
             >
