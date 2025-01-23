@@ -3,13 +3,18 @@ import { usePokedexStore } from '@/store/pokedex-store';
 import { Loader2 } from 'lucide-react';
 import { usePokemonInfo } from '../api/get-pokemon-info';
 import { usePokemons } from '../api/get-pokemons';
-import { useSearchPokemon } from '../api/get-searched-pokemon';
 import { AlphabetIndex } from './alphabet-index';
 import { PokemonCard } from './pokemon-card';
 import { PokemonDetails } from './pokemon-details';
 
 export function ListPokemons() {
-  const { searchQuery, selectedLetter, setSelectedLetter } = usePokedexStore();
+  const {
+    searchQuery,
+    selectedLetter,
+    setSelectedLetter,
+    searchResult,
+    loading: isSearching,
+  } = usePokedexStore();
   const {
     data: pokemonListData,
     fetchNextPage,
@@ -24,8 +29,6 @@ export function ListPokemons() {
     ) || [];
   const { data: pokemonDetails, isLoading: isLoadingDetails } =
     usePokemonInfo(pokemonUrls);
-  const { data: searchResult, isLoading: isSearching } =
-    useSearchPokemon(searchQuery);
 
   const isLoading = isLoadingList || isLoadingDetails || isSearching;
   let displayedPokemon = searchQuery
