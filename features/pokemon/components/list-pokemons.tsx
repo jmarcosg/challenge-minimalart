@@ -25,8 +25,10 @@ export function ListPokemons() {
   } = usePokemons();
 
   const pokemonUrls =
-    pokemonListData?.pages.flatMap((page: { results: { url: string }[] }) =>
-      page.results.map((pokemon: { url: string }) => pokemon.url),
+    pokemonListData?.pages.flatMap((page) =>
+      (page as { results: { url: string }[] }).results.map(
+        (pokemon) => pokemon.url,
+      ),
     ) || [];
   const { data: pokemonDetails, isLoading: isLoadingDetails } =
     usePokemonInfo(pokemonUrls);
