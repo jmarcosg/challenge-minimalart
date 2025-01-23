@@ -18,7 +18,7 @@ export function AlphabetIndex({
         {alphabet.map((letter) => (
           <Button
             key={letter}
-            variant={selectedLetter === letter ? 'default' : 'ghost'}
+            variant={selectedLetter === letter ? 'destructive' : 'ghost'}
             className={`w-8 h-8 p-0 ${
               selectedLetter === letter ? 'opacity-100' : 'opacity-30'
             }`}
