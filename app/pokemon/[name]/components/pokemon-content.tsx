@@ -14,7 +14,7 @@ export function PokemonContent({ pokemon }: PokemonContentProps) {
       <div className="relative aspect-square w-full max-w-[300px] mx-auto">
         <Image
           src={
-            pokemon.sprites.other['official-artwork'].front_default ||
+            pokemon.sprites.other?.['official-artwork']?.front_default ||
             '/placeholder.svg'
           }
           alt={pokemon.name}
