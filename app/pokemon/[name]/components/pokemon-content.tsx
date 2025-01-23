@@ -1,28 +1,15 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { useIsMobile } from '@/hooks/use-is-mobile';
 import { pokemonTypeColors } from '@/lib/pokemon-type-colors';
-import { usePokedexStore } from '@/store/pokedex-store';
 import { Pokemon } from '@/types/pokemon';
-import { ExternalLink } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 
-function PokemonContent({ pokemon }: { pokemon: Pokemon }) {
+interface PokemonContentProps {
+  pokemon: Pokemon;
+  isStandalone?: boolean;
+}
+
+export function PokemonContent({ pokemon }: PokemonContentProps) {
   return (
     <>
       <div className="relative aspect-square w-full max-w-[300px] mx-auto">
@@ -38,13 +25,6 @@ function PokemonContent({ pokemon }: { pokemon: Pokemon }) {
         />
       </div>
       <div className="space-y-4">
-        <div className="flex justify-center">
-          <Button asChild>
-            <Link href={`/pokemon/${pokemon.name}`}>
-              View Full Details <ExternalLink className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
         <div>
           <h3 className="font-semibold mb-2">Types</h3>
           <div className="flex gap-2">
@@ -102,52 +82,5 @@ function PokemonContent({ pokemon }: { pokemon: Pokemon }) {
         </div>
       </div>
     </>
-  );
-}
-
-export function PokemonDetails() {
-  const { selectedPokemon, setSelectedPokemon } = usePokedexStore();
-  const isMobile = useIsMobile();
-
-  if (!selectedPokemon) return null;
-
-  const handleClose = () => setSelectedPokemon(null);
-
-  if (isMobile) {
-    return (
-      <Sheet open={!!selectedPokemon} onOpenChange={handleClose}>
-        <SheetContent side="bottom" className="h-[90vh]">
-          <SheetHeader>
-            <SheetTitle className="text-2xl font-bold capitalize flex items-center gap-2">
-              {selectedPokemon.name}
-              <span className="text-lg text-muted-foreground">
-                #{selectedPokemon.id.toString().padStart(3, '0')}
-              </span>
-            </SheetTitle>
-          </SheetHeader>
-          <ScrollArea className="h-full py-4">
-            <PokemonContent pokemon={selectedPokemon} />
-          </ScrollArea>
-        </SheetContent>
-      </Sheet>
-    );
-  }
-
-  return (
-    <Dialog open={!!selectedPokemon} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold capitalize flex items-center gap-2">
-            {selectedPokemon.name}
-            <span className="text-lg text-muted-foreground">
-              #{selectedPokemon.id.toString().padStart(3, '0')}
-            </span>
-          </DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-4 py-4 md:grid-cols-2">
-          <PokemonContent pokemon={selectedPokemon} />
-        </div>
-      </DialogContent>
-    </Dialog>
   );
 }
