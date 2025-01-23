@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { usePokedexStore } from '@/store/pokedex-store';
 import { Loader2 } from 'lucide-react';
+import * as motion from 'motion/react-client';
 import { usePokemonInfo } from '../api/get-pokemon-info';
 import { usePokemons } from '../api/get-pokemons';
 import { AlphabetIndex } from './alphabet-index';
@@ -54,7 +55,14 @@ export function ListPokemons() {
       ) : displayedPokemon.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {displayedPokemon.map((pokemon) => (
-            <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            <motion.div
+              key={pokemon.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ ease: 'easeInOut', duration: 0.25 }}
+            >
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            </motion.div>
           ))}
         </div>
       ) : (
