@@ -6,7 +6,6 @@ import Image from 'next/image';
 
 interface PokemonContentProps {
   pokemon: Pokemon;
-  isStandalone?: boolean;
 }
 
 export function PokemonContent({ pokemon }: PokemonContentProps) {
