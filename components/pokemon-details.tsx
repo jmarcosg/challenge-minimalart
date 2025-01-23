@@ -3,8 +3,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Progress } from "@/components/ui/progress"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { useIsMobile } from '@/hooks/use-is-mobile'
+import { useIsMobile } from "@/hooks/use-is-mobile"
 import { usePokedexStore } from "@/store/pokedex-store"
+import { Pokemon } from "@/types/pokemon"
 import Image from "next/image"
 
 const typeColors: Record<string, string> = {
@@ -133,3 +134,4 @@ export function PokemonDetails() {
     </Dialog>
   )
 }
+
