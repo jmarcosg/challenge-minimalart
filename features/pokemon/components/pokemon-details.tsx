@@ -1,3 +1,4 @@
+import { PokemonInfoSkeleton } from '@/components/shared/pokemon-info-skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,6 +22,7 @@ import { Pokemon } from '@/types/pokemon';
 import { ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 function PokemonContent({ pokemon }: { pokemon: Pokemon }) {
   return (
@@ -126,7 +128,9 @@ export function PokemonDetails() {
             </SheetTitle>
           </SheetHeader>
           <ScrollArea className="h-full py-4">
-            <PokemonContent pokemon={selectedPokemon} />
+            <Suspense fallback={<PokemonInfoSkeleton />}>
+              <PokemonContent pokemon={selectedPokemon} />
+            </Suspense>
           </ScrollArea>
         </SheetContent>
       </Sheet>
@@ -135,7 +139,7 @@ export function PokemonDetails() {
 
   return (
     <Dialog open={!!selectedPokemon} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold capitalize flex items-center gap-2">
             {selectedPokemon.name}
@@ -145,7 +149,9 @@ export function PokemonDetails() {
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4 md:grid-cols-2">
-          <PokemonContent pokemon={selectedPokemon} />
+          <Suspense fallback={<PokemonInfoSkeleton />}>
+            <PokemonContent pokemon={selectedPokemon} />
+          </Suspense>
         </div>
       </DialogContent>
     </Dialog>

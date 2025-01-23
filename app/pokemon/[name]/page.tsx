@@ -1,10 +1,12 @@
 'use client';
 
+import { PokemonInfoSkeleton } from '@/components/shared/pokemon-info-skeleton';
 import { Button } from '@/components/ui/button';
 import { usePokemonByName } from '@/features/pokemon/api/get-pokemon-by-name';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { StandalonePokemonInfo } from './components/standalone-pokemon-info';
 
 export default function PokemonPage() {
@@ -36,7 +38,10 @@ export default function PokemonPage() {
       <Button asChild className="mb-4">
         <Link href="/">Back to Pokédex</Link>
       </Button>
-      <StandalonePokemonInfo pokemon={pokemon} />
+
+      <Suspense fallback={<PokemonInfoSkeleton />}>
+        <StandalonePokemonInfo pokemon={pokemon} />
+      </Suspense>
     </div>
   );
 }
