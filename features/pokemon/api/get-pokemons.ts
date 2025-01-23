@@ -14,6 +14,7 @@ async function fetchPokemons(offset: number) {
 export function usePokemons() {
   return useInfiniteQuery({
     queryKey: ["pokemonList"],
+    initialPageParam: 0,
     queryFn: ({ pageParam = 0 }) => fetchPokemons(pageParam),
     getNextPageParam: (lastPage, allPages) => {
       const nextOffset = allPages.length * LIMIT
