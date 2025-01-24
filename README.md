@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokedex Challenge 👾
+Este challenge consiste en crear una app que consuma una API y pueda mostrar la información obtenida en una lista.
 
-## Getting Started
+Para que este resuelto correctamente es *necesario* que:
+- Se cree un componente Button y que al apretarlo se dispare la llamada al endpoint de la API
+- Crear y conectar un Loading que se va a mostrar durante todo el tiempo que la API este "cargando"
+- Crear un componente de ListPokemons que reciba la información obtenida por el endpoint y dibuje una lista con todos los pokemons adentro + un scrollbar
 
-First, run the development server:
+![Esqueleto](https://i.imgur.com/xKOXY2n.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+La API a consumir es la siguiente: [Pokeapi](https://pokeapi.co/)
+La URL seria => `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Información adicional
+Un pokedex es un objecto ficticio que lista información de todos los Pokemons. Un Pokemon es un "animal/mounstro" chiquitito que pelea en batallas contra otros Pokemons. [Pokemon game serires](https://en.wikipedia.org/wiki/Pok%C3%A9mon_(video_game_series)).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Items a cumplir
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [X] Responsive
+- [X] UX/UI
+- [X] Uso de algún State Management (~~Context~~, ~~Redux~~, **Zustand**, etc)
+- [X] Manejo de API
+- [X] Componentes reutilizables (Button, Loading, ListPokemons)
 
-## Learn More
+## Puntos Extra
 
-To learn more about Next.js, take a look at the following resources:
+- [X] Paginación
+- [X] Buscador
+- [X] Filtro por inicial del Pokemon
+- [X] Detalle de Pokemon
+- [X] Animaciones
+- [X] Deploy del proyecto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Información del proyecto base
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Este proyecto fue creado usando:
+- Node ^20 LTS
+- React 19
+- Next.js 15
+- Tailwind CSS
 
-## Deploy on Vercel
+## Consideraciones
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Se va a analizar la arquitectura de la aplicación, el consumo de información dinámica y la prolijidad al desarrollar.
+Es muy importante que la aplicación cumpla con el listado de items y funcionalidades necesarias provisto arriba.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+Para instalar todas las dependencias necesarias:
+### `npm install` o `npm i`
+
+Para prender el proyecto en modo dev
+### `npm run dev`
+
+## Entrega
+El proyecto tiene que ser clonado usando el comando `git clone`.
+Cada desarrollador debera crear un repositorio en su cuenta de github y subir el proyecto ahí dentro.
+Dejandolo público para que luego alguien del equipo lo pueda analizar como corresponda.
+
+(PD: Se puede cambiar el Remote del repositorio si sabe usar `git` correctamente)
