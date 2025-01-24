@@ -50,7 +50,8 @@ function PokemonContent({ pokemon }: { pokemon: Pokemon }) {
       <div className="relative aspect-square w-full max-w-[300px] mx-auto">
         <Image
           src={
-            pokemon.sprites.other?.['official-artwork']?.front_default ||
+            pokemon.sprites?.other?.['official-artwork']?.front_default ||
+            '/who-is-that-pokemon.jpg' ||
             '/placeholder.svg'
           }
           alt={pokemon.name}
@@ -135,6 +136,8 @@ export function PokemonDetails() {
   const isMobile = useIsMobile();
 
   if (!selectedPokemon) return null;
+
+  console.log(selectedPokemon);
 
   const handleClose = () => setSelectedPokemon(null);
 

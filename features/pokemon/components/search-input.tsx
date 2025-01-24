@@ -20,6 +20,7 @@ export function SearchInput() {
           <X
             className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer"
             onClick={() => setSearchQuery('')}
+            color="red"
           />
         )}
       </div>

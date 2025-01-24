@@ -41,30 +41,31 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
     >
       <CardHeader className="p-4">
         <CardTitle className="text-lg capitalize flex items-center justify-between">
-          {pokemon.name}
+          {pokemon?.name}
           <span className="text-sm text-muted-foreground">
             #{pokemon.id.toString().padStart(3, '0')}
           </span>
         </CardTitle>
         <div className="flex gap-2">
-          {pokemon.types.map(({ type }) => (
-            <Badge
-              key={type.name}
-              className={`${
-                typeColors[type.name as keyof typeof typeColors] ||
-                'bg-gray-500'
-              } text-white`}
-            >
-              {type.name}
-            </Badge>
-          ))}
+          {pokemon.types &&
+            pokemon.types.map(({ type }, index) => (
+              <Badge
+                key={index}
+                className={`${
+                  typeColors[type.name as keyof typeof typeColors] ||
+                  'bg-gray-500'
+                } text-white`}
+              >
+                {type.name}
+              </Badge>
+            ))}
         </div>
       </CardHeader>
       <CardContent className="p-4 pt-0">
         <div className="relative w-full aspect-square">
           <Image
             src={
-              pokemon.sprites.other?.['official-artwork']?.front_default ||
+              pokemon.sprites?.other?.['official-artwork']?.front_default ||
               '/who-is-that-pokemon.jpg' ||
               '/placeholder.svg'
             }
