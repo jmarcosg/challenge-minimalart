@@ -56,8 +56,27 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		keyframes: {
+			loading: {
+			'0%': { transform: 'translate(0, 0) rotate(0)' },
+			'25%': { transform: 'translate(-8px, 0) rotate(-18deg)' },
+			'33%': { transform: 'translate(8px, 0) rotate(18deg)' },
+			'50%': { transform: 'translate(-8px, 0) rotate(-12deg)' },
+			'60%': { transform: 'translate(8px, 0) rotate(18deg)' },
+			'100%': { transform: 'translate(0, 0) rotate(0)' },
+			},
+      	},
+		animation: {
+			loading: 'loading 2s infinite',
+		},
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), function ({ addUtilities }) {
+      addUtilities({
+        '.animate-loading': {
+          animation: 'loading 2s infinite',
+        },
+      });
+    },],
 } satisfies Config;
