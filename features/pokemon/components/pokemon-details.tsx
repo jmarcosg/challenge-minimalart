@@ -137,8 +137,6 @@ export function PokemonDetails() {
 
   if (!selectedPokemon) return null;
 
-  console.log(selectedPokemon);
-
   const handleClose = () => setSelectedPokemon(null);
 
   if (isMobile) {
