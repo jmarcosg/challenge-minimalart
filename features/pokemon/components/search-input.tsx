@@ -12,7 +12,7 @@ export function SearchInput() {
         placeholder="Search Pokémon..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="pl-8 pr-8"
+        className="pl-8 pr-8 bg-white"
       />
       {searchQuery && (
         <X

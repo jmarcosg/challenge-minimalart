@@ -16,7 +16,7 @@ export function StandalonePokemonInfo({
   if (!pokemon) return null;
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold capitalize mb-4">{pokemon.name}</h1>
       <div className="grid gap-4 md:grid-cols-2">
         <PokemonContent pokemon={pokemon} />
