@@ -85,17 +85,20 @@ function PokemonContent({ pokemon }: { pokemon: Pokemon }) {
         <div>
           <h3 className="font-semibold mb-2">Stats</h3>
           <div className="space-y-2">
-            {pokemon.stats.map(({ base_stat, stat }) => (
-              <div key={stat.name} className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <span className="capitalize">
-                    {stat.name.replace('-', ' ')}
-                  </span>
-                  <span>{base_stat}</span>
-                </div>
-                <Progress value={base_stat} max={255} />
-              </div>
-            ))}
+            {pokemon.stats &&
+              pokemon.stats.map(({ base_stat, stat }, index) => {
+                return (
+                  <div key={index} className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="capitalize">
+                        {stat?.name.replace('-', ' ')}
+                      </span>
+                      <span>{base_stat}</span>
+                    </div>
+                    <Progress value={base_stat} max={255} />
+                  </div>
+                );
+              })}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
