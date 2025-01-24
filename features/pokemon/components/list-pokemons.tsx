@@ -1,3 +1,4 @@
+import { LoadingPokeball } from '@/components/shared/loading-pokeball';
 import { Button } from '@/components/ui/button';
 import { usePokedexStore } from '@/store/pokedex-store';
 import { Loader2 } from 'lucide-react';
@@ -24,6 +25,7 @@ export function ListPokemons() {
     isLoading: isLoadingList,
   } = usePokemons();
 
+  // flatten the pages and get the urls of each pokemon to fetch their details
   const pokemonUrls =
     pokemonListData?.pages.flatMap((page) =>
       (page as { results: { url: string }[] }).results.map(
@@ -34,13 +36,15 @@ export function ListPokemons() {
     usePokemonInfo(pokemonUrls);
 
   const isLoading = isLoadingList || isLoadingDetails || isSearching;
+
+  // combine search result and pokemon details to display
   let displayedPokemon = searchQuery
     ? searchResult
       ? [searchResult]
       : []
     : pokemonDetails || [];
 
-  // Filter Pokemon by selected letter
+  // filter pokemon by selected letter
   if (selectedLetter && !searchQuery) {
     displayedPokemon = displayedPokemon.filter((pokemon) =>
       pokemon.name.toUpperCase().startsWith(selectedLetter),
@@ -50,9 +54,9 @@ export function ListPokemons() {
   return (
     <>
       {isLoading ? (
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto" />
-          <p className="mt-2">Loading Pokémon...</p>
+        <div className="flex flex-col justify-center items-center h-64">
+          <LoadingPokeball />
+          <p className="mt-2 text-center">Loading Pokémons...</p>
         </div>
       ) : displayedPokemon.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -74,7 +78,7 @@ export function ListPokemons() {
         </div>
       )}
 
-      {!searchQuery && hasNextPage && (
+      {!searchQuery && hasNextPage && !isLoading && (
         <div className="mt-8 text-center">
           <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
             {isFetchingNextPage ? (

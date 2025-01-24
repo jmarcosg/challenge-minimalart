@@ -65,7 +65,7 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
           <Image
             src={
               pokemon.sprites.other?.['official-artwork']?.front_default ||
-              '/placeholder.svg' ||
+              '/who-is-that-pokemon.jpg' ||
               '/placeholder.svg'
             }
             alt={pokemon.name}

@@ -43,6 +43,8 @@ export function PokemonContent({ pokemon }: PokemonContentProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
+
+      {/* pokemon stats */}
       <div className="space-y-4">
         <div>
           <h3 className="font-semibold mb-2">Types</h3>
@@ -98,6 +100,29 @@ export function PokemonContent({ pokemon }: PokemonContentProps) {
               </Badge>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* pokemon sprites */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-2">Sprites</h3>
+        <div className="grid grid-cols-2 gap-4 justify-center">
+          {Object.entries(pokemon.sprites)
+            .filter(([, value]) => typeof value === 'string')
+            .map(([key, value]) => (
+              <div key={key} className="text-center">
+                <h4 className="font-semibold capitalize">
+                  {key.split('_').pop()}
+                </h4>
+                <Image
+                  src={value}
+                  alt={key}
+                  width={96}
+                  height={96}
+                  className="object-contain mx-auto"
+                />
+              </div>
+            ))}
         </div>
       </div>
     </>

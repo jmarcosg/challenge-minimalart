@@ -19,7 +19,7 @@ export function AlphabetIndex({
 
   return (
     <ScrollArea className="h-screen w-12 bg-background border-l border-gray-800/50">
-      <div className="flex flex-col items-center space-y-2 py-4 bg-red-500/30">
+      <div className="flex flex-col items-center space-y-2 py-4 bg-blue-500/30">
         {alphabet.map((letter) => (
           <Button
             key={letter}
