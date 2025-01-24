@@ -1,7 +1,7 @@
 import { LoadingPokeball } from '@/components/shared/loading-pokeball';
 import { Button } from '@/components/ui/button';
 import { usePokedexStore } from '@/store/pokedex-store';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Trash2 } from 'lucide-react';
 import * as motion from 'motion/react-client';
 import { usePokemonInfo } from '../api/get-pokemon-info';
 import { usePokemons } from '../api/get-pokemons';
@@ -16,6 +16,8 @@ export function ListPokemons() {
     setSelectedLetter,
     searchResult,
     loading: isSearching,
+    localPokemon,
+    removeLocalPokemon,
   } = usePokedexStore();
   const {
     data: pokemonListData,
@@ -42,7 +44,7 @@ export function ListPokemons() {
     ? searchResult
       ? [searchResult]
       : []
-    : pokemonDetails || [];
+    : [...localPokemon, ...(pokemonDetails || [])];
 
   // filter pokemon by selected letter
   if (selectedLetter && !searchQuery) {
@@ -67,7 +69,19 @@ export function ListPokemons() {
               animate={{ opacity: 1 }}
               transition={{ ease: 'easeInOut', duration: 0.25 }}
             >
-              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+              <div key={pokemon.id} className="relative">
+                <PokemonCard pokemon={pokemon} />
+                {localPokemon.some((p) => p.id === pokemon.id) && (
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute bottom-1 left-2"
+                    onClick={() => removeLocalPokemon(pokemon.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </motion.div>
           ))}
         </div>
