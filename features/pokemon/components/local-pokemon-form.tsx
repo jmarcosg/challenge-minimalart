@@ -120,7 +120,7 @@ export function LocalPokemonForm() {
             ))}
           </div>
           <div>
-            <Label htmlFor="height">Height (dm)</Label>
+            <Label htmlFor="height">Height</Label>
             <Input
               id="height"
               type="number"
@@ -130,7 +130,7 @@ export function LocalPokemonForm() {
             />
           </div>
           <div>
-            <Label htmlFor="weight">Weight (hg)</Label>
+            <Label htmlFor="weight">Weight</Label>
             <Input
               id="weight"
               type="number"
